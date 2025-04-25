@@ -10,6 +10,16 @@ https://www.linkedin.com/in/jamescole05/
 
 https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/
 
+## Result
+
+
+- #131 overall
+- #70 Manual
+- #10 in the UK
+- ~12k teams 
+
+## Introduction
+
 IMC Prosperity 3 was a global algorithmic trading competition held over 15 days with over 14,000 participants competing. There were 5 different rounds each lasting 3 days with new challenges arising each round. The first round included ‘Rainforest Resin’, ‘Kelp’ as well as ‘Squid Ink’. Whilst further into the competition, new things were added such as ‘Magnificent Macarons’ and ‘Volcanic Rock’(Along with its call options). The underlying currency for the archipelago were seashells and the aim was to make the most amount of profit out of all the teams. In addition to the algorithmic section of the competition there was also a manual trading round consisting of game theory and mathematical problems.
 
 ## Tutorial 
