@@ -1,4 +1,5 @@
 Writers:
+
 James Cole - https://www.linkedin.com/in/jamescole05/
 
 Tomás - https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/
