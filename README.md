@@ -16,7 +16,7 @@ https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/
 - #131 overall
 - #70 Manual
 - #10 in the UK
-- ~12k teams 
+- ~14k teams 
 
 ## Introduction
 
@@ -24,11 +24,11 @@ IMC Prosperity 3 was a global algorithmic trading competition held over 15 days 
 
 ## Tutorial 
 
-As for the tutorial round it was very simple - there were 2 equities available to trade (Rainforest Resin and Kelp) to help teams get used to how the trading system on the archipelago worked and to have a somewhat head-start in developing an algorithm for these equities. Our approach to this was very similar for both; Resin allowed for market making and market taking as the fair value was set to 10,000 seashells throughout all rounds with wide bid/ask spreads allowing us to undercut and make profit very efficiently. Kelp was not trading around a single price level, but we noticed its price movements could be somewhat predicted by the state of the orderbook, so we quickly decided to use VWAP to calculate our fair value for the equity and continue to market make/take.
+As for the tutorial round it was very simple - there were 2 commodities available to trade (Rainforest Resin and Kelp) to help teams get used to how the trading system on the archipelago worked and to have a somewhat head-start in developing an algorithm for these commodities. Our approach to this was very similar for both; Resin allowed for market making and market taking as the fair value was set to 10,000 seashells throughout all rounds with wide bid/ask spreads allowing us to undercut and make profit very efficiently. Kelp was not trading around a single price level, but we noticed its price movements could be somewhat predicted by the state of the orderbook, so we quickly decided to use VWAP to calculate our fair value for the commodity and continue to market make/take.
 
 ## Round 1
 
-In round 1 a new equity to trade called Squid Ink was added, as well as the already 2 existing ones from the previous round. Fortunately, there weren't any changes that needed to be made for these, so we could pivot our focus primarily towards continuing to develop tools for the competition as well as an algorithm for squid ink. 
+In round 1 a new commodity to trade called Squid Ink was added, as well as the already 2 existing ones from the previous round. Fortunately, there weren't any changes that needed to be made for these, so we could pivot our focus primarily towards continuing to develop tools for the competition as well as an algorithm for squid ink. 
 Throughout these 3 days we tried numerous basic methods to trade squid ink as we couldn’t continue to market make our way through. In the end we came to the decision to trade it using a mean reversion approach to scalp some profits. This didn’t turn out to be massively profitable. As the round finished and results were released we found we had ranked 1,200th globally which shocked us, but after further investigation we discovered our algorithm had actually been run on only 100k timestamps instead of the full 1 million like everybody else. After this had been resolved by the admins we jumped another 600 places globally at the start of round 2.
 For the manual round, we had to convert between some currencies a maximum of 5 times and make money from profitable conversion rates. This was a trivial problem, as there was a relatively small number of currencies to convert to, so we simply wrote a script to brute force the optimal conversions and used that.
 
