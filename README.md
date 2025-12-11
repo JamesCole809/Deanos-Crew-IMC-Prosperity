@@ -68,24 +68,19 @@ One Djembe
 We modelled the fair value of the Picnic Basket ETF as the value of its underlying basket. For basket 1 the synthetic price is
 
 $$
-P_t^{(1)}
-= 6\,P_t^{\mathrm{CROISSANTS}}
-+ 3\,P_t^{\mathrm{JAMS}}
-+ 1\,P_t^{\mathrm{DJEMBES}},
+P_t^{(1)} = 6\,P_t^{\mathrm{CROISSANTS}} + 3\,P_t^{\mathrm{JAMS}} + 1\,P_t^{\mathrm{DJEMBES}}
 $$
 
 and for basket 2
 
 $$
-P_t^{(2)}
-= 4\,P_t^{\mathrm{CROISSANTS}}
-+ 2\,P_t^{\mathrm{JAMS}}.
+P_t^{(2)} = 4\,P_t^{\mathrm{CROISSANTS}} + 2\,P_t^{\mathrm{JAMS}}
 $$
 
 At each timestamp we compute the spread between ETF and synthetic basket,
 
 $$
-S_t = P_t^{\mathrm{ETF}} - P_t^{\mathrm{synthetic}},
+S_t = P_t^{\mathrm{ETF}} - P_t^{\mathrm{synthetic}}
 $$
 
 and maintain a rolling mean $\mu_S$ and standard deviation $\sigma_S$ of this spread. The trading signal is the $z$-score
