@@ -68,24 +68,24 @@ One Djembe
 We modelled the fair value of the Picnic Basket ETF as the value of its underlying basket. For basket 1 the synthetic price is
 
 $$
-P^{\text{basket1}}_t
-= 6 P^{\text{CROISSANTS}}_t
-+ 3 P^{\text{JAMS}}_t
-+ 1 P^{\text{DJEMBES}}_t,
+P_t^{(1)}
+= 6\,P_t^{\mathrm{CROISSANTS}}
++ 3\,P_t^{\mathrm{JAMS}}
++ 1\,P_t^{\mathrm{DJEMBES}},
 $$
 
 and for basket 2
 
 $$
-P^{\text{basket2}}_t
-= 4 P^{\text{CROISSANTS}}_t
-+ 2 P^{\text{JAMS}}_t.
+P_t^{(2)}
+= 4\,P_t^{\mathrm{CROISSANTS}}
++ 2\,P_t^{\mathrm{JAMS}}.
 $$
 
 At each timestamp we compute the spread between ETF and synthetic basket,
 
 $$
-S_t = P^{\text{ETF}}_t - P^{\text{synthetic}}_t,
+S_t = P_t^{\mathrm{ETF}} - P_t^{\mathrm{synthetic}},
 $$
 
 and maintain a rolling mean $\mu_S$ and standard deviation $\sigma_S$ of this spread. The trading signal is the $z$-score
@@ -97,7 +97,7 @@ $$
 If $z_t \gg 0$ we short the rich ETF and buy the cheap basket.  
 If $z_t \ll 0$ we buy the cheap ETF and short the rich basket.  
 
-Positions are sized towards a target notional when $|z_t|$ exceeds a threshold and gradually closed as $z_t \to 0$.
+Positions are sized toward a target notional when $|z_t|$ exceeds a threshold and gradually closed as $z_t \to 0$.
 
 Although this worked very well for us we weren’t able to profitably replicate this for picnic basket 2 so ultimately decided to not trade it in our final submission. Once submission had been run we climbed higher in the global ranking to 138th with a total profit of 208k seashells.
 
