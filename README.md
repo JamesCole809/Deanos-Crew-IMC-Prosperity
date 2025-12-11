@@ -5,7 +5,7 @@
 | [<img src="https://github.com/JamesCole809.png" width="150" alt="James Cole">](https://www.linkedin.com/in/jamescole05/) | [<img src="https://github.com/barbosa7.png" width="150" alt="Tomás Barbosa">](https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/) |
 |:---:|:---:|
 | [James Cole](https://www.linkedin.com/in/jamescole05/) | [Tomás Barbosa](https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/) |
-| [github.com/JamesCole809](https://github.com/JamesCole809) | [github.com/Barbosa7](https://github.com/barbosa7) |
+
 
 
 ## Result
