@@ -1,5 +1,4 @@
-## IMC Prosperity 3 
-# Deanos Crew Write-up
+# IMC Prosperity 3 - Deanos Crew Write-up
 
 ## Writers
 
