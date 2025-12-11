@@ -142,21 +142,33 @@ We then keep a rolling mean of past implied vols $\bar\sigma_t$ and trade simple
 
 with $\varepsilon$ a small volatility band.
 
-To control risk we approximate the Black–Scholes delta
+To control risk and monetise curvature we approximate the Black–Scholes Greeks. The option delta is
 
 $$
 \Delta = \frac{\partial C}{\partial S} = N(d_1),
 $$
 
-and compute our net delta as
+and the gamma is
 
 $$
-\Delta^{\text{net}}_t
-= q^{\text{underlying}}_t
-+ \sum_{i} q^{(i)}_t \,\Delta^{(i)}_t,
+\Gamma = \frac{\partial^2 C}{\partial S^2}.
 $$
 
-where $q^{\text{underlying}}_t$ is our Volcanic Rock position and $q^{(i)}_t$ are option positions. If $|\Delta^{\text{net}}_t|$ exceeds a small band we trade the underlying to bring it back towards zero.
+We keep the portfolio approximately delta neutral by computing a net delta
+
+$$
+\Delta_t^{\mathrm{net}} = q_t^{\mathrm{underlying}} + \sum_i q_t^{(i)} \,\Delta_t^{(i)},
+$$
+
+where $q_t^{\mathrm{underlying}}$ is our Volcanic Rock position and $q_t^{(i)}$ are option positions. Whenever $|\Delta_t^{\mathrm{net}}|$ moves outside a small band we trade the underlying to bring it back towards zero (delta hedging).
+
+Because the option positions are **long gamma** ($\Gamma > 0$), repeatedly re-hedging the delta as the underlying price $S$ moves lets us “gamma scalp”: for a small move $\Delta S$ the incremental P\&L from convexity is approximately
+
+$$
+\text{dPnL} \;\approx\; \tfrac12\,\Gamma\,(\Delta S)^2,
+$$
+
+so we systematically buy the underlying after down moves and sell it after up moves while the options mean-revert in implied volatility.
 
 
 Closer to the end, we had a hint from the organisers that it might be useful to plot the vol smile. This indeed was a more appropriate way to calculate IV, but we had previously assumed that the vol smile would be negligible because most people were rather unfamiliar with options, and we thought the organisers wouldn’t add such unnecessary complexity. With this hint we plotted the vol smile and it showed that it was indeed very relevant (As you can see in the figure below). But because our strategy relied on short term IV mean reversion and we were trading the options with different strikes independently, the moneyness shouldn’t change significantly unless there was a huge move in a short period of time so our strategy should still make sense for the most part despite not optimal and we didn’t have much time to perfect it.
