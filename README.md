@@ -20,6 +20,34 @@
 
 IMC Prosperity 3 was a global algorithmic trading competition held over 15 days with over 14,000 participants competing. There were 5 different rounds each lasting 3 days with new challenges arising each round. The first round included ‘Rainforest Resin’, ‘Kelp’ as well as ‘Squid Ink’. Whilst further into the competition, new things were added such as ‘Magnificent Macarons’ and ‘Volcanic Rock’(Along with its call options). The underlying currency for the archipelago were seashells and the aim was to make the most amount of profit out of all the teams. In addition to the algorithmic section of the competition there was also a manual trading round consisting of game theory and mathematical problems.
 
+## Core quantitative ideas
+
+Across all rounds we kept reusing a few core building blocks:
+
+### VWAP and fair value
+
+For any order book we estimate a liquidity weighted fair value using VWAP:
+
+$$
+\text{VWAP}_t = 
+\frac{\sum_i p_i q_i}{\sum_i q_i},
+$$
+
+where $p_i$ is the price at level $i$ and $q_i$ is the corresponding volume. Our trading mid is then
+
+$$
+m_t = \frac{\text{VWAP}_{\text{bid},t} + \text{VWAP}_{\text{ask},t}}{2}
+$$
+
+and for mean reversion style trades we look at deviations of the current mid from VWAP,
+
+$$
+\Delta p_t = \frac{m_t - \text{VWAP}_t}{\text{VWAP}_t}.
+$$
+
+Positive $\Delta p_t$ means rich, negative means cheap.
+
+
 ## Tutorial 
 
 As for the tutorial round it was very simple - there were 2 commodities available to trade (Rainforest Resin and Kelp) to help teams get used to how the trading system on the archipelago worked and to have a somewhat head-start in developing an algorithm for these commodities. Our approach to this was very similar for both; Resin allowed for market making and market taking as the fair value was set to 10,000 seashells throughout all rounds with wide bid/ask spreads allowing us to undercut and make profit very efficiently. Kelp was not trading around a single price level, but we noticed its price movements could be somewhat predicted by the state of the orderbook, so we quickly decided to use VWAP to calculate our fair value for the commodity and continue to market make/take.
@@ -36,6 +64,41 @@ This round was based on ETF trading, a new concept to me entirely but I was able
 Six Croissants
 Three Jams
 One Djembe
+
+We modelled the fair value of the Picnic Basket ETF as the value of its underlying basket. For basket 1 the synthetic price is
+
+$$
+P^{\text{basket1}}_t
+= 6 P^{\text{CROISSANTS}}_t
++ 3 P^{\text{JAMS}}_t
++ 1 P^{\text{DJEMBES}}_t,
+$$
+
+and for basket 2
+
+$$
+P^{\text{basket2}}_t
+= 4 P^{\text{CROISSANTS}}_t
++ 2 P^{\text{JAMS}}_t.
+$$
+
+At each timestamp we compute the spread between ETF and synthetic basket,
+
+$$
+S_t = P^{\text{ETF}}_t - P^{\text{synthetic}}_t,
+$$
+
+and maintain a rolling mean $\mu_S$ and standard deviation $\sigma_S$ of this spread. The trading signal is the $z$-score
+
+$$
+z_t = \frac{S_t - \mu_S}{\sigma_S}.
+$$
+
+If $z_t \gg 0$ we short the rich ETF and buy the cheap basket.  
+If $z_t \ll 0$ we buy the cheap ETF and short the rich basket.  
+
+Positions are sized towards a target notional when $|z_t|$ exceeds a threshold and gradually closed as $z_t \to 0$.
+
 Although this worked very well for us we weren’t able to profitably replicate this for picnic basket 2 so ultimately decided to not trade it in our final submission. Once submission had been run we climbed higher in the global ranking to 138th with a total profit of 208k seashells.
 
 For the manual round, we had to trade flippers with turtles. They would have a reserve price and trade with any bids above their reserve price (in a first-price auction). Their reserve prices were uniformly distributed at random between 160-200 and 250-320, where the value of the flippers was 320. We were allowed two bids, but the second bid would only trade if it were also above the average of the other player's second bid. If it were below, the probability would fall cubically as a function of how far away the bid was from the average. 
@@ -54,6 +117,52 @@ This didn’t give us a great payoff. We were probably around average, but it wa
 Round 3 brought a lot of surprises to some of us, as a new equity called Volcanic Rock had been added along-side its’ european style call options that we could trade too.
  
 For a significant part of our team, options were something new, so we chose to use a relatively simple strategy. We mapped options to implied volatilities and traded volatility in a mean-reversion manner. Because of the spread, deep ITM calls seemed to have a lot of noise when calculating the volatility because the extrinsic value was so close to 0, a 1$ increase or decrease due to the spread would make a huge difference in the IV, so we only traded ATM calls. 
+
+For the Volcanic Rock call options we used the Black–Scholes model to map prices to implied volatilities. Given spot $S$, strike $K$, time to expiry $T$ and volatility $\sigma$, the call price is
+
+$$
+C(S, K, T, \sigma) = S\,N(d_1) - K\,N(d_2),
+$$
+
+with
+
+$$
+d_1 = \frac{\ln(S/K) + \tfrac12 \sigma^2 T}{\sigma \sqrt{T}},
+\qquad
+d_2 = d_1 - \sigma \sqrt{T},
+$$
+
+where $N(\cdot)$ is the standard normal CDF.
+
+For each option we invert this formula numerically to find the implied volatility $\hat\sigma_t$ such that
+
+$$
+C^{\text{market}}_t \approx C(S_t, K, T_t, \hat\sigma_t).
+$$
+
+We then keep a rolling mean of past implied vols $\bar\sigma_t$ and trade simple vol mean reversion:
+
+- if $\hat\sigma_t > \bar\sigma_t + \varepsilon$ we **sell volatility** (sell calls),  
+- if $\hat\sigma_t < \bar\sigma_t - \varepsilon$ we **buy volatility** (buy calls),
+
+with $\varepsilon$ a small volatility band.
+
+To control risk we approximate the Black–Scholes delta
+
+$$
+\Delta = \frac{\partial C}{\partial S} = N(d_1),
+$$
+
+and compute our net delta as
+
+$$
+\Delta^{\text{net}}_t
+= q^{\text{underlying}}_t
++ \sum_{i} q^{(i)}_t \,\Delta^{(i)}_t,
+$$
+
+where $q^{\text{underlying}}_t$ is our Volcanic Rock position and $q^{(i)}_t$ are option positions. If $|\Delta^{\text{net}}_t|$ exceeds a small band we trade the underlying to bring it back towards zero.
+
 
 Closer to the end, we had a hint from the organisers that it might be useful to plot the vol smile. This indeed was a more appropriate way to calculate IV, but we had previously assumed that the vol smile would be negligible because most people were rather unfamiliar with options, and we thought the organisers wouldn’t add such unnecessary complexity. With this hint we plotted the vol smile and it showed that it was indeed very relevant (As you can see in the figure below). But because our strategy relied on short term IV mean reversion and we were trading the options with different strikes independently, the moneyness shouldn’t change significantly unless there was a huge move in a short period of time so our strategy should still make sense for the most part despite not optimal and we didn’t have much time to perfect it.
 
