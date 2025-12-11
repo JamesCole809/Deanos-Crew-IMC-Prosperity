@@ -1,20 +1,18 @@
 # IMC Prosperity 3 write-up
 
-## Writers:
+## Writers
 
-### James Cole 
+| [<img src="https://github.com/JAMES_GITHUB_USERNAME.png" width="150" alt="James Cole">](https://www.linkedin.com/in/jamescole05/) | [<img src="https://github.com/TOMAS_GITHUB_USERNAME.png" width="150" alt="Tomás Barbosa">](https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/) |
+|:---:|:---:|
+| [James Cole](https://www.linkedin.com/in/jamescole05/) | [Tomás Barbosa](https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/) |
+| [github.com/JAMES_GITHUB_USERNAME](https://github.com/JAMES_GITHUB_USERNAME) | [github.com/TOMAS_GITHUB_USERNAME](https://github.com/TOMAS_GITHUB_USERNAME) |
 
-https://www.linkedin.com/in/jamescole05/
-
-### Tomás 
-
-https://www.linkedin.com/in/tom%C3%A1s-barbosa-b47440156/
 
 ## Result
 
 
 - #131 overall
-- #70 Manual
+- #70/14,000 Manual Globally
 - #10 in the UK
 - ~14k teams 
 
